@@ -19,7 +19,6 @@ const FormularioBusqueda = () => {
           `https://newsdata.io/api/1/news?apikey=pub_373290c922e29facae718dda453793435585d&category=${categoria}`
         );
         const datos = await respuesta.json();
-        console.log(datos.results);
         setDatos(datos.results);
         setMostrarNoticias(true);
       } catch (error) {
@@ -59,7 +58,7 @@ const FormularioBusqueda = () => {
               <option value="crime">crime</option>
               <option value="domestic">domestic</option>
               <option value="education">education</option>
-              <option value="entertaiment">entertaiment</option>
+              <option value="entertainment">entertainment</option>
               <option value="environment">environment</option>
               <option value="food">food</option>
               <option value="health">health</option>
