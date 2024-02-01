@@ -1,13 +1,12 @@
 import { Row } from "react-bootstrap";
 import CardNoticia from "./CardNoticia";
 
-const ListaNoticias = () => {
+const ListaNoticias = ({ noticias }) => {
   return (
     <Row>
-      <CardNoticia></CardNoticia>
-      <CardNoticia></CardNoticia>
-      <CardNoticia></CardNoticia>
-      <CardNoticia></CardNoticia>
+      {noticias.map((not, index) => (
+        <CardNoticia key={index} noticia={not}></CardNoticia>
+      ))}
     </Row>
   );
 };

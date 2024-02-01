@@ -1,17 +1,17 @@
 import { Card, Button, Col } from "react-bootstrap";
 import Badge from 'react-bootstrap/Badge';
 
-const CardNoticia = () => {
+const CardNoticia = ({noticia}) => {
+    console.log(noticia.title);
   return (
-    <Col md="4" lg="3">
-      <Card>
-        <Card.Img variant="top" className="img-fluid" src="./"/>
-        <Card.Body>
-        <Badge bg="info" className="mb-2">Estados unidos</Badge>
-          <Card.Title>Asesino en Serie</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+    <Col md="4" lg="3" className="mb-3">
+      <Card className="d-flex flex-column h-100">
+        <Card.Img variant="top" className="img-fluid" src={noticia.image_url}/>
+        <Card.Body className="d-flex flex-column">
+        <Badge bg="info" className="mb-2">{noticia.country[0]}</Badge>
+          <Card.Title>{noticia.title}</Card.Title>
+          <Card.Text className="flex-grow-1">
+            {noticia.description}
           </Card.Text>
         </Card.Body>
         <Card.Footer>

@@ -1,24 +1,45 @@
 import { Form, Row, Col } from "react-bootstrap";
 import ListaNoticias from "./ListaNoticias";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const FormularioBusqueda = () => {
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+  const [mostrarNoticias, setMostrarNoticias] = useState(false);
+  const [datos, setDatos] = useState(null)
 
-  // useEffect(() =>{
-  //   consultarApi();
-  // }, [])
+  useEffect(() => {
+    consultarApi(categoriaSeleccionada);
+  }, [categoriaSeleccionada]);
 
-  // const consultarApi = async () =>{
-  //   try {
-  //     const respuesta = await fetch('https://newsdata.io/api/1/news?apikey=pub_373290c922e29facae718dda453793435585d&category=science');
-  //     const datos = await respuesta.json();
-  //     const noticias = JSON.parse(datos) || [];
-  //     console.log(datos);
-  //     console.log(noticias);
-  //   } catch (error) {
-  //     alert("Hubo un error intente más tarde", error);
-  //   }
-  // }
+  const consultarApi = async (categoria) => {
+    if (categoria !== "") {
+      setMostrarNoticias(false);
+      try {
+        const respuesta = await fetch(
+          `https://newsdata.io/api/1/news?apikey=pub_373290c922e29facae718dda453793435585d&category=${categoria}`
+        );
+        const datos = await respuesta.json();
+        console.log(datos.results);
+        setDatos(datos.results);
+        setMostrarNoticias(true);
+      } catch (error) {
+        console.log("Error al realizar la solicitud:", error);
+        setDatos([]);
+      }
+    }
+  };
+
+  const mostrarComponente = mostrarNoticias ? (
+    <ListaNoticias className="my-3" noticias={datos}></ListaNoticias>
+  ) : (
+    <p className="text-center py-4 lead">
+      Seleccione una categoria para ver las noticias
+    </p>
+  );
+
+  const handleChange = (e) => {
+    setCategoriaSeleccionada(e.target.value);
+  };
 
   return (
     <>
@@ -28,7 +49,11 @@ const FormularioBusqueda = () => {
             <p className="lead text-center">Busca por Categoria: </p>
           </Col>
           <Col md="8">
-            <Form.Select aria-label="Seleccione una categoria">
+            <Form.Select
+              aria-label="Seleccione una categoria"
+              onChange={handleChange}
+              value={categoriaSeleccionada}
+            >
               <option>Seleccione una opción: </option>
               <option value="business">business</option>
               <option value="crime">crime</option>
@@ -51,7 +76,7 @@ const FormularioBusqueda = () => {
           </Col>
         </Row>
       </section>
-      <ListaNoticias className="my-3"></ListaNoticias>
+      {mostrarComponente}
     </>
   );
 };
